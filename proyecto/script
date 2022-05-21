@@ -1939,44 +1939,79 @@ END NUEVO_CLIENTE;
 /
 
 
---Bloque anónimo del programa principal
+--Bloques anónimos para llamar a las funciones, procedimientos y gestión de excepciones
+
+--Llamada a Función 1:
 
 BEGIN
+	DBMS_OUTPUT.PUT_LINE(RESUMEN_PEDIDOS);
+EXCEPTION
+	WHEN NO_DATA_FOUND THEN 
+		DBMS_OUTPUT.PUT_LINE('Dato no encontrado');
+	WHEN TOO_MANY_ROWS THEN 
+		DBMS_OUTPUT.PUT_LINE('Demasiados resultados para una única consulta');
+	WHEN ROWTYPE_MISMATCH THEN
+		DBMS_OUTPUT.PUT_LINE('Error de incompatibilidad');
+	WHEN OTHERS THEN
+		DBMS_OUTPUT.PUT_LINE('Error inesperado');
+END;
+/
 
---Llamada a Funcion 1:
+	
+--Llamada a Función 2:
 
-DBMS_OUTPUT.PUT_LINE(RESUMEN_PEDIDOS);
-
-
---Llamada a Funcion 2:
-
-DBMS_OUTPUT.PUT_LINE(PRODUCTOS_GAMA('&GAMA'));
-
+BEGIN
+	DBMS_OUTPUT.PUT_LINE(PRODUCTOS_GAMA('&GAMA'));
+EXCEPTION
+	WHEN NO_DATA_FOUND THEN 
+		DBMS_OUTPUT.PUT_LINE('Dato no encontrado');
+	WHEN TOO_MANY_ROWS THEN 
+		DBMS_OUTPUT.PUT_LINE('Demasiados resultados para una única consulta');
+	WHEN ROWTYPE_MISMATCH THEN
+		DBMS_OUTPUT.PUT_LINE('Error de incompatibilidad');
+	WHEN OTHERS THEN
+		DBMS_OUTPUT.PUT_LINE('Error inesperado');
+END;
+/
+	
 
 --Llamada a Procedimiento 1:
 
-AUMENTO_PRECIO (&PORCENTAJE);
+BEGIN
+	AUMENTO_PRECIO (&PORCENTAJE);
+EXCEPTION
+	WHEN VALUE_ERROR THEN 
+		DBMS_OUTPUT.PUT_LINE('Error aritmético, de conversión, de redondeo o de tamaño en una operación');
+	WHEN ZERO_DIVIDE THEN 
+		DBMS_OUTPUT.PUT_LINE('Error al intentar dividir por cero');	
+	WHEN DUP_VAL_ON_INDEX THEN 
+		DBMS_OUTPUT.PUT_LINE('Error al almacenar un valor ya existente en una columna que tiene restricción de índice único');
+	WHEN ROWTYPE_MISMATCH THEN
+		DBMS_OUTPUT.PUT_LINE('Error de incompatibilidad');
+	WHEN OTHERS THEN
+		DBMS_OUTPUT.PUT_LINE('Error inesperado');
+END;
+/
 
 
 --Llamada a Procedimiento 2:
 
-NUEVO_CLIENTE ('&NOMBRE_NUEVO_CLIENTE', '&NOMBRE_NUEVO_CONTACTO', '&APELLIDO_NUEVO_CONTACTO', '&NUEVO_TELEFONO', '&NUEVO_FAX', '&NUEVA_LINEA_DIRECCION1', '&NUEVA_LINEA_DIRECCION2', '&NUEVA_CIUDAD', '&NUEVA_REGION', '&NUEVO_PAIS', '&NUEVO_CODIGO_POSTAL', &NUEVO_REP_VENTAS, &NUEVO_LIMITE_CREDITO);
-
-
---Gestión de excepciones: 
-
-WHEN NO_DATA_FOUND THEN 
-	DBMS_OUTPUT.PUT_LINE('Dato no encontrado');
-WHEN TOO_MANY_ROWS THEN 
-	DBMS_OUTPUT.PUT_LINE('Demasiados resultados para una única consulta');
-WHEN VALUE_ERROR THEN 
-	DBMS_OUTPUT.PUT_LINE('Error aritmético, de conversión, de redondeo o de tamaño en una operación');
-WHEN ZERO_DIVIDE THEN 
-	DBMS_OUTPUT.PUT_LINE('Error al intentar dividir por cero');	
-WHEN DUP_VAL_ON_INDEX THEN 
-	DBMS_OUTPUT.PUT_LINE('Error al almacenar un valor ya existente en una columna que tiene restricción de índice único');
-WHEN OTHERS THEN
-	DBMS_OUTPUT.PUT_LINE('Error inesperado');
-
+BEGIN
+	NUEVO_CLIENTE ('&NOMBRE_NUEVO_CLIENTE', '&NOMBRE_NUEVO_CONTACTO', '&APELLIDO_NUEVO_CONTACTO', '&NUEVO_TELEFONO', '&NUEVO_FAX', '&NUEVA_LINEA_DIRECCION1', '&NUEVA_LINEA_DIRECCION2', '&NUEVA_CIUDAD', '&NUEVA_REGION', '&NUEVO_PAIS', '&NUEVO_CODIGO_POSTAL', &NUEVO_REP_VENTAS, &NUEVO_LIMITE_CREDITO);
+EXCEPTION
+	WHEN NO_DATA_FOUND THEN 
+		DBMS_OUTPUT.PUT_LINE('Dato no encontrado');
+	WHEN VALUE_ERROR THEN 
+		DBMS_OUTPUT.PUT_LINE('Error aritmético, de conversión, de redondeo o de tamaño en una operación');
+	WHEN INVALID_NUMBER THEN 
+		DBMS_OUTPUT.PUT_LINE('Valor erroneo');
+	WHEN ZERO_DIVIDE THEN 
+		DBMS_OUTPUT.PUT_LINE('Error al intentar dividir por cero');	
+	WHEN DUP_VAL_ON_INDEX THEN 
+		DBMS_OUTPUT.PUT_LINE('Error al almacenar un valor ya existente en una columna que tiene restricción de índice único');
+	WHEN ROWTYPE_MISMATCH THEN
+		DBMS_OUTPUT.PUT_LINE('Error de incompatibilidad');
+	WHEN OTHERS THEN
+		DBMS_OUTPUT.PUT_LINE('Error inesperado');
 END;
 /
